@@ -21,14 +21,14 @@ model = dict(
         num_csp_blocks=1),
     bbox_head=dict(
         type='YOLOXHead',
-        num_classes=80,
+        num_classes=2,
         act_cfg=dict(type='LeakyReLU', negative_slope=0.1),
         in_channels=128,
         feat_channels=128),
     train_cfg=dict(assigner=dict(type='SimOTAAssigner', center_radius=2.5)),
     # In order to align the source code, the threshold of the val phase is
     # 0.01, and the threshold of the test phase is 0.001.
-    test_cfg=dict(score_thr=0.01, nms=dict(type='nms', iou_threshold=0.65)))
+    test_cfg=dict(score_thr=0.25, nms=dict(type='nms', iou_threshold=0.5)))
 
 # dataset settings
 data_root = 'data/coco/'
@@ -110,8 +110,8 @@ data = dict(
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
-        img_prefix=data_root + 'val2017/',
+        ann_file=data_root + 'annotations/instances_test2017.json',
+        img_prefix=data_root + 'test2017/',
         pipeline=test_pipeline))
 
 # optimizer
@@ -168,6 +168,7 @@ evaluation = dict(
     # less than ‘max_epochs - num_last_epochs’.
     # The evaluation interval is 1 when running epoch is greater than
     # or equal to ‘max_epochs - num_last_epochs’.
+    classwise=True,
     interval=interval,
     dynamic_intervals=[(max_epochs - num_last_epochs, 1)],
     metric='bbox')
