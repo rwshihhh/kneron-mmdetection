@@ -99,7 +99,7 @@ test_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=48,
+    samples_per_gpu=12,
     workers_per_gpu=12,
     persistent_workers=True,
     train=train_dataset,
@@ -118,7 +118,7 @@ data = dict(
 # default 8 gpu
 optimizer = dict(
     type='SGD',
-    lr=0.01,
+    lr=0.0025,
     momentum=0.9,
     weight_decay=5e-4,
     nesterov=True,
